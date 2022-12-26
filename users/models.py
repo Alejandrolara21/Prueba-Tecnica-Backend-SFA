@@ -11,11 +11,10 @@ class DocumentType(models.Model):
 
 class Leader(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    full_name = models.CharField(max_length=100, blank=True, null=True)
     document_type = models.ForeignKey(DocumentType, on_delete=models.CASCADE)
     document = models.CharField(max_length=30, unique=True)
     phone = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
-    image = models.ImageField(upload_to = 'profiles', null=True)
+    image = models.ImageField(upload_to = 'users', null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     coordinates_lat = models.CharField(max_length=100, blank=True, null=True)
     coordinates_len = models.CharField(max_length=100, blank=True, null=True)
@@ -24,14 +23,13 @@ class Leader(models.Model):
         return '{}'.format(self.user.first_name)
 
 class Voter(models.Model):
-    first_name = models.CharField(max_length=100, blank=True, null=True)
-    last_name = models.CharField(max_length=100, blank=True)
-    full_name = models.CharField(max_length=100, blank=True, null=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     document_type = models.ForeignKey(DocumentType, on_delete=models.CASCADE)
     document = models.CharField(max_length=100, unique=True)
     phone = models.CharField(max_length=30, validators=[RegexValidator(r'^\d{1,10}$')])
     state = models.ForeignKey(State, on_delete=models.CASCADE)
-    polling_station = models.IntegerField(null=True)
+    polling_station = models.IntegerField()
     leader = models.ForeignKey(Leader, on_delete=models.CASCADE)
     polling_place = models.ForeignKey(PollingPlace, on_delete=models.CASCADE)
 

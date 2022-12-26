@@ -15,7 +15,7 @@ class Neighborhood(models.Model):
 class PollingPlace(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
-    coordinates_lat = models.CharField(max_length=100, blank=True, null=True)
-    coordinates_len = models.CharField(max_length=100, blank=True, null=True)
-    n_polling_station = models.IntegerField(null=True)
+    coordinates_lat = models.CharField(max_length=100)
+    coordinates_len = models.CharField(max_length=100)
+    n_polling_station = models.IntegerField()
     neighborhood = models.ForeignKey(Neighborhood, on_delete=models.CASCADE)
