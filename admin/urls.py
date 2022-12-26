@@ -19,7 +19,6 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('rest-auth/', include('rest_auth.urls')),
     path('states/', include(('states.urls', 'states'), namespace="states")),
     path('locations/', include(('locations.urls', 'locations'), namespace="locations")),
     path('users/', include(('users.urls', 'users'), namespace="users")),

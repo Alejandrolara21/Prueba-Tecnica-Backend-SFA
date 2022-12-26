@@ -15,10 +15,9 @@ class Leader(models.Model):
     document = models.CharField(max_length=30, unique=True)
     phone = models.CharField(max_length=10, validators=[RegexValidator(r'^\d{1,10}$')])
     image = models.ImageField(upload_to = 'users', null=True)
-    address = models.CharField(max_length=100, blank=True, null=True)
-    coordinates_lat = models.CharField(max_length=100, blank=True, null=True)
-    coordinates_len = models.CharField(max_length=100, blank=True, null=True)
-    
+    address = models.CharField(max_length=100)
+    coordinates_lat = models.CharField(max_length=100)
+    coordinates_len = models.CharField(max_length=100)
     def __str__(self):
         return '{}'.format(self.user.first_name)
 

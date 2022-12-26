@@ -4,6 +4,11 @@ from users.models import *
 from locations.models import *
 
 
+class DocumentTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DocumentType
+        fields = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
     role_name = serializers.CharField(read_only=True)
     role = serializers.CharField(read_only=True)
@@ -24,7 +29,7 @@ class GroupSerializer(serializers.ModelSerializer):
         model = Group
         fields = '__all__'
 
-class UserLeaderSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
@@ -43,6 +48,11 @@ class LeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leader
         fields = '__all__'
+    
+    def validate_phone(self, data):
+        if len(data) != 10:
+            raise serializers.ValidationError(('The phone is invalid, it has to have 10 digits.'), code='invalid')
+        return data
 
 
 class VoterSerializer(serializers.ModelSerializer):
@@ -53,25 +63,10 @@ class VoterSerializer(serializers.ModelSerializer):
     department_name = serializers.CharField(read_only=True)
     city_name = serializers.CharField(read_only=True)
     neighborhood_name = serializers.CharField(read_only=True)
+    count_data = serializers.CharField(read_only=True)
     class Meta:
         model = Voter
         fields = '__all__'
-        # fields = [
-        #     'first_name',
-        #     'last_name',
-        #     'document_type',
-        #     'document',
-        #     'phone',
-        #     'polling_station',
-        #     'polling_place',
-        #     'document_type_name',
-        #     'state_name',
-        #     'leader_name',
-        #     'polling_place_name',
-        #     'department_name',
-        #     'city_name',
-        #     'neighborhood_name'
-        # ]
     
     def validate_phone(self, data):
         if len(data) != 10:
