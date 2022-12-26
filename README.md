@@ -86,3 +86,10 @@ Finalmente, ya teniendo el sistema ejecutando, se tomará la URL que genera para
 
 Documentación de los servicios [Postman Documentation](https://documenter.getpostman.com/view/18457387/2s8Z6x1YX1).
 
+SQL [DB_Testing.zip](https://github.com/Alejandrolara21/Prueba-Tecnica-Backend-SFA/files/10304806/DB_Testing.zip)
+
+Credenciales para administrador:
+  ```
+   email: testing@gmail.com
+   password: 123456
+  ```
