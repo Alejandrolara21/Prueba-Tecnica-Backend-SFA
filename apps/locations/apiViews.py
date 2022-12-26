@@ -24,9 +24,9 @@ def show_info_api(data, status):
         }
     return showData
 
-@api_view(['GET','POST','PUT'])
-@permission_classes((IsAdminUser, ))
-def api_department(request, pk=None):
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_list_department(request, pk=None):
     if(request.method == 'GET'):
         queryset = Department.objects.all()
         if(pk):
@@ -34,7 +34,11 @@ def api_department(request, pk=None):
         queryset = queryset.annotate(state_name=F('state__name'))
         serializer = DepartmentSerializer(queryset, many=True)
         return Response(show_info_api(serializer.data,200), status=200)
-    elif(request.method == 'POST'):
+    
+@api_view(['POST','PUT'])
+@permission_classes((IsAdminUser, ))
+def api_department(request, pk=None):
+    if(request.method == 'POST'):
         data = request.data
         serializer = DepartmentSerializer(data=data)
         if(serializer.is_valid()):
@@ -55,9 +59,9 @@ def api_department(request, pk=None):
         else:
             return Response(show_info_api({"id":["This field is required in the URL."]},400), status=400)
 
-@api_view(['GET','POST','PUT'])
-@permission_classes((IsAdminUser, ))
-def api_city(request, pk=None):
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_list_city(request, pk=None):
     if(request.method == 'GET'):
         queryset = City.objects.all()
         if(pk):
@@ -65,7 +69,11 @@ def api_city(request, pk=None):
         queryset = queryset.annotate(state_name=F('state__name'),department_name=F('department__name'))
         serializer = CitySerializer(queryset, many=True)        
         return Response(show_info_api(serializer.data,200), status=200)
-    elif(request.method == 'POST'):
+
+@api_view(['POST','PUT'])
+@permission_classes((IsAdminUser, ))
+def api_city(request, pk=None):
+    if(request.method == 'POST'):
         data = request.data
         serializer = CitySerializer(data=data)
         if(serializer.is_valid()):
@@ -86,10 +94,9 @@ def api_city(request, pk=None):
         else:
             return Response(show_info_api({"id":["This field is required in the URL."]},400), status=400)
 
-
-@api_view(['GET','POST','PUT'])
-@permission_classes((IsAdminUser, ))
-def api_neighborhood(request, pk=None):
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_list_neighborhood(request, pk=None):
     if(request.method == 'GET'):
         queryset = Neighborhood.objects.all()
         if(pk):
@@ -97,7 +104,11 @@ def api_neighborhood(request, pk=None):
         queryset = queryset.annotate(state_name=F('state__name'),department_name=F('city__department__name'),city_name=F('city__name'))
         serializer = NeighborhoodSerializer(queryset, many=True)        
         return Response(show_info_api(serializer.data,200), status=200)
-    elif(request.method == 'POST'):
+
+@api_view(['POST','PUT'])
+@permission_classes((IsAdminUser, ))
+def api_neighborhood(request, pk=None):
+    if(request.method == 'POST'):
         data = request.data
         serializer = NeighborhoodSerializer(data=data)
         if(serializer.is_valid()):
@@ -119,9 +130,9 @@ def api_neighborhood(request, pk=None):
             return Response(show_info_api({"id":["This field is required in the URL."]},400), status=400)
 
 
-@api_view(['GET','POST','PUT'])
-@permission_classes((IsAdminUser, ))
-def api_polling_place(request, pk=None):
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_list_polling_place(request, pk=None):
     if(request.method == 'GET'):
         queryset = PollingPlace.objects.all()
         if(pk):
@@ -129,7 +140,12 @@ def api_polling_place(request, pk=None):
         queryset = queryset.annotate(state_name=F('state__name'),neighborhood_name=F('neighborhood__name'),department_name=F('neighborhood__city__department__name'),city_name=F('neighborhood__city__name'))
         serializer = PollingPlaceSerializer(queryset, many=True)
         return Response(show_info_api(serializer.data,200), status=200)
-    elif(request.method == 'POST'):
+    
+
+@api_view(['POST','PUT'])
+@permission_classes((IsAdminUser, ))
+def api_polling_place(request, pk=None):
+    if(request.method == 'POST'):
         data = request.data
         serializer = PollingPlaceSerializer(data=data)
         if(serializer.is_valid()):

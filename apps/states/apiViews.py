@@ -8,16 +8,20 @@ from rest_framework.decorators import *
 from rest_framework.permissions import *
 from rest_framework.response import Response
 
-@api_view(['GET','POST','PUT'])
-@permission_classes((IsAdminUser, ))
-def api_state(request, pk=None):
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_list_state(request, pk=None):
     if(request.method == 'GET'):
         queryset = State.objects.all()
         if(pk):
             queryset = queryset.filter(id=pk)
         serializer = StateSerializer(queryset, many=True)
         return Response(show_info_api(serializer.data,200), status=200)
-    elif(request.method == 'POST'):
+
+@api_view(['POST','PUT'])
+@permission_classes((IsAdminUser, ))
+def api_state(request, pk=None):
+    if(request.method == 'POST'):
         data = request.data
         serializer = StateSerializer(data=data)
         if(serializer.is_valid()):

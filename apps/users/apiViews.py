@@ -50,16 +50,20 @@ def logout_user(request):
     logout(request)
     return Response(show_info_api({"message": 'User Logged out successfully'},200), status=200)
 
-@api_view(['GET','POST','PUT'])
-@permission_classes((IsAdminUser, ))
-def api_document_type(request, pk=None):
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def api_list_document_type(request, pk=None):
     if(request.method == 'GET'):
         queryset = DocumentType.objects.all()
         if(pk):
             queryset = queryset.filter(id=pk)
         serializer = DocumentTypeSerializer(queryset, many=True)
         return Response(show_info_api(serializer.data,200), status=200)
-    elif(request.method == 'POST'):
+
+@api_view(['POST','PUT'])
+@permission_classes((IsAdminUser, ))
+def api_document_type(request, pk=None):
+    if(request.method == 'POST'):
         data = request.data
         serializer = DocumentTypeSerializer(data=data)
         if(serializer.is_valid()):
