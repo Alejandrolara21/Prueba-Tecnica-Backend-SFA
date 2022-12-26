@@ -19,7 +19,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('states/', include(('states.urls', 'states'), namespace="states")),
-    path('locations/', include(('locations.urls', 'locations'), namespace="locations")),
-    path('users/', include(('users.urls', 'users'), namespace="users")),
+    path('states/', include(('apps.states.urls', 'states'), namespace="states")),
+    path('locations/', include(('apps.locations.urls', 'locations'), namespace="locations")),
+    path('users/', include(('apps.users.urls', 'users'), namespace="users")),
 ]
